@@ -32,10 +32,14 @@ def main():
     init_values = 1 - 1/N, 1/N, 0
     beta = 2.0 #contact rate in the population
     gamma = 1.0 #inverse of the mean infectious period
-    results = sir_model(N, t, dt, beta, gamma, init_values) #runs the model
+    sir_model(N, t, dt, beta, gamma, init_values) #runs the model
+    
+    
 
 #these are the differential equations that calculate the SIR model
+
 def sir_model(N, t, dt, beta, gamma, init_values):
+    
     S_0, I_0, R_0 = init_values
     S, I, R = [S_0], [I_0], [R_0]
     dt = t[1] - t[0]
@@ -46,21 +50,22 @@ def sir_model(N, t, dt, beta, gamma, init_values):
         S.append(next_S)
         I.append(next_I)
         R.append(next_R)
+    #plot the data as three separate lines for S, I, and R
+    fig = plt.figure()
+    ax = plt.axes()
+    x = np.linspace(0, 10, 1002)
+    ax.set_xlabel('Time(Days)')
+    ax.set_ylabel('Number of Individuals')
+    ax.plot(S,x, color='blue', label='Susceptible')
+    ax.plot(I,x, color='red', label='Infectious')
+    ax.plot(R,x, color='green', label='Removed')
+    plt.show()
     return np.stack([S, I, R]).T
+
 print('this actually worked')
 
-#plot the data as three separate lines for S, I, and R
-fig = plt.figure()
-ax = plt.axes()
-x = np.linspace(0, 10, 1000)
-ax.plot(x, S, color='blue', label='Susceptible')
-ax.plot(x, I, color='red', label='Infectious')
-ax.plot(x, R, color='green', label='Removed')
-ax.set_xlabel('Time(Days)')
-ax.set_ylabel('Number of Individuals')
-plot.show()
+
 
 
 #call the main function
 main()
-
